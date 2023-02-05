@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  image
 //
-//  Created by Dmitrii Vrabie on 18.01.2023.
+//  Created by Vitalina Spinu on 18.01.2023.
 //
 
 import UIKit

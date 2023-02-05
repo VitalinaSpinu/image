@@ -2,11 +2,13 @@
 //  ViewController.swift
 //  image
 //
-//  Created by Dmitrii Vrabie on 18.01.2023.
+//  Created by Vitalina Spinu on 18.01.2023.
 //
 
 import UIKit
 import CoreData
+import Alamofire
+import SwiftyJSON
 
 
 class ViewController: UIViewController {
@@ -16,11 +18,10 @@ class ViewController: UIViewController {
     let searchController = UISearchController(searchResultsController: nil)
     
     var cellIdentifier = "cell"
-    var filteredName = [Image]()
     
-    private var allImages : [Image] = [Image(name: "download"),
-                                       Image(name: "gerafa"),
-                                       Image(name: "luna")]
+    private var allImages : [PhotoInfo] = []
+    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,38 +37,69 @@ class ViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-    private func filterNames(for searchText: String) {
-        filteredName = allImages.filter { name in
-            return name.name.starts(with: searchText.lowercased())
+
+    func fetchImages(text: String) {
+        let url = "https://api.flickr.com/services/rest/"
+        let apiKey = "30237fed0e734b6df7992c0d3f362672"
+        let parameters: Parameters = ["method":"flickr.photos.search",
+                                      "api_key": "\(apiKey)",
+                                      "format": "json",
+                                      "nojsoncallback": "1",
+                                      "extras": "url_o",
+                                      "text": "\(text)"]
+        
+        AF.request(url, method: .get, parameters: parameters)
+            .responseJSON{ responds in
+                switch responds.result {
+                case .success(let value):
+                    self.parsePhotos(json: JSON(value))
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+    
+    func parsePhotos(json: JSON) {
+        allImages = []
+        allImages.reserveCapacity(100)
+        for (index, dict) in json["photos"]["photo"] {
+            if dict["url_o"].exists() {
+                let photosList = PhotoInfo(url: dict["url_o"].stringValue)
+                allImages.append(photosList)
+            }
         }
         collectionView.reloadData()
     }
-           
+    
 }
+
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! MyCollectionViewCell
-        var images = allImages[indexPath.item]
-        if searchController.isActive && searchController.searchBar.text != "" {
-            images = filteredName[indexPath.item]
-        } else {
-            images = allImages[indexPath.item]
-        }
-        cell.myImage?.image = UIImage(named: images.name)
+        let url = URL(string: allImages[indexPath.item].url)!
+        URLSession.shared.dataTask(with: url) { data, response, error in
+                    guard
+                        let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
+                        let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
+                        let data = data, error == nil,
+                        let image = UIImage(data: data)
+                        else { return }
+                    DispatchQueue.main.async() { [weak self] in
+                        cell.myImage?.image = image
+                    }
+                }.resume()
+
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
-            return filteredName.count
-        } else {
-            return allImages.count
-        }
-        
+        return allImages.count
     }
-}
-extension ViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        filterNames(for: searchController.searchBar.text ?? "")
-    }
+    
 }
 
+extension ViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        fetchImages(text: searchController.searchBar.text ?? "")
+    }
+}

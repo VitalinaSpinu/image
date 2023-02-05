@@ -17,38 +17,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DFg-Po-qR3">
-                                <rect key="frame" x="16" y="130" width="361" height="722"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="DFg-Po-qR3">
+                                <rect key="frame" x="0.0" y="140" width="393" height="712"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EKe-Qs-Ajm">
-                                    <size key="itemSize" width="154" height="137"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GSF-7Q-ak9">
+                                    <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="YBE-ef-vtt" customClass="MyCollectionViewCell" customModule="image" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="154" height="137"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="cell" id="YBE-ef-vtt" customClass="MyCollectionViewCell" customModule="image" customModuleProvider="target">
+                                        <rect key="frame" x="10" y="10" width="144" height="146"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="yuw-vo-pkV">
-                                            <rect key="frame" x="0.0" y="0.0" width="154" height="137"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="144" height="146"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DJg-CK-NJ6">
-                                                    <rect key="frame" x="20" y="20" width="114" height="97"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DJg-CK-NJ6">
+                                                    <rect key="frame" x="0.0" y="0.0" width="144" height="146"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="120" id="2K0-uu-H6D"/>
+                                                        <constraint firstAttribute="width" constant="150" id="ncg-D5-MX0"/>
+                                                    </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="DJg-CK-NJ6" secondAttribute="trailing" constant="20" id="5Uy-7F-bs6"/>
-                                                <constraint firstAttribute="bottom" secondItem="DJg-CK-NJ6" secondAttribute="bottom" constant="20" id="AXx-I1-Q4J"/>
-                                                <constraint firstItem="DJg-CK-NJ6" firstAttribute="leading" secondItem="yuw-vo-pkV" secondAttribute="leading" constant="20" id="DNl-Tc-W8O"/>
-                                                <constraint firstItem="DJg-CK-NJ6" firstAttribute="top" secondItem="yuw-vo-pkV" secondAttribute="top" constant="20" id="q3G-NO-DZe"/>
+                                                <constraint firstItem="DJg-CK-NJ6" firstAttribute="top" secondItem="yuw-vo-pkV" secondAttribute="top" id="N9I-fT-lXq"/>
+                                                <constraint firstAttribute="bottom" secondItem="DJg-CK-NJ6" secondAttribute="bottom" id="U6L-rg-OYg"/>
+                                                <constraint firstAttribute="trailing" secondItem="DJg-CK-NJ6" secondAttribute="trailing" id="dLF-7Z-l6q"/>
+                                                <constraint firstItem="DJg-CK-NJ6" firstAttribute="leading" secondItem="yuw-vo-pkV" secondAttribute="leading" id="g9S-Xt-7Te"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="154" height="137"/>
+                                        <size key="customSize" width="144" height="146"/>
                                         <connections>
-                                            <outlet property="myImage" destination="DJg-CK-NJ6" id="bwi-xV-0u4"/>
+                                            <outlet property="myImage" destination="DJg-CK-NJ6" id="grd-J2-W30"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
